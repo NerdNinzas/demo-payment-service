@@ -1,11 +1,18 @@
 import asyncio
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 
 from src import db, gateway, logbuf, metrics
 from src.payments import process_payment
+from src import statuspage
 
 app = FastAPI(title="demo-payment-service")
+
+
+@app.get("/", response_class=HTMLResponse)
+def status_page():
+    return statuspage.html()
 
 
 @app.get("/health")
